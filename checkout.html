@@ -45,17 +45,15 @@
         </main>
 
         <script>
-        // Fetch from localStorage
+        
         const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
         const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
 
-        // Render Cart Items
         const cartList = document.getElementById('cartList');
         cartList.innerHTML = cartItems.length
         ? cartItems.map(item => `<li class="list-group-item">${item}</li>`).join('')
         : '<li class="list-group-item">No items in cart.</li>';
 
-        // Render Custom Orders
         const customList = document.getElementById('customList');
         if (customOrders.length) {
         customList.innerHTML = customOrders.map((o, i) => `
@@ -78,7 +76,6 @@
         customList.innerHTML = '<p>No custom orders placed.</p>';
         }
 
-        // Clear storage
         document.getElementById('clearBtn').addEventListener('click', () => {
         if (confirm('Clear all cart and custom orders?')) {
         localStorage.removeItem('cartItems');
@@ -87,7 +84,6 @@
         }
         });
 
-        // Confirm action
         document.getElementById('confirmBtn').addEventListener('click', () => {
         alert('Thank you! Your order has been placed.');
         localStorage.removeItem('cartItems');
