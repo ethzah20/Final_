@@ -150,7 +150,6 @@
     </div>
 </div>
 
-<!-- Cart Modal -->
 <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -172,7 +171,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
     AOS.init({ duration: 800, once: true });
-    // Populate cart modal when opened
+
     const cartModal = document.getElementById('cartModal');
     cartModal.addEventListener('show.bs.modal', () => {
         const body = document.getElementById('cartModalBody');
