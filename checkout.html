@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - BrightSide Gadgets</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
+        header { background: #0d6efd; color: #fff; padding: 2rem 0; }
+        header h1 { margin: 0; }
+        .order-list { max-height: 300px; overflow-y: auto; }
+        .btn-clear { margin-left: 1rem; }
+        </style>
+        </head>
+        <body>
+        <header class="text-center">
+        <div class="container">
+        <h1><i class="fa-solid fa-cart-shopping"></i> Checkout</h1>
+        <p>Review your cart and custom orders before placing your final order.</p>
+        </div>
+        </header>
+
+        <main class="container my-5">
+        <section class="mb-5">
+        <h2>Cart Items</h2>
+        <ul id="cartList" class="list-group order-list mb-3">
+        <li class="list-group-item">Loading...</li>
+        </ul>
+        </section>
+
+        <section class="mb-5">
+        <h2>Custom Orders</h2>
+        <div id="customList" class="order-list">
+        <p>Loading...</p>
+        </div>
+        </section>
+
+        <div class="d-flex justify-content-between">
+        <button id="clearBtn" class="btn btn-outline-secondary btn-clear"><i class="fa-solid fa-trash"></i> Clear All</button>
+        <button id="confirmBtn" class="btn btn-success"><i class="fa-solid fa-check"></i> Confirm & Place Order</button>
+        </div>
+        </main>
+
+        <script>
+        // Fetch from localStorage
+        const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+        const customOrders = JSON.parse(localStorage.getItem('customOrders') || '[]');
+
+        // Render Cart Items
+        const cartList = document.getElementById('cartList');
+        cartList.innerHTML = cartItems.length
+        ? cartItems.map(item => `<li class="list-group-item">${item}</li>`).join('')
+        : '<li class="list-group-item">No items in cart.</li>';
+
+        // Render Custom Orders
+        const customList = document.getElementById('customList');
+        if (customOrders.length) {
+        customList.innerHTML = customOrders.map((o, i) => `
+        <div class="card mb-3">
+        <div class="card-body">
+        <h5 class="card-title">Custom Order ${i+1}</h5>
+        <ul class="mb-0">
+        <li><strong>Device:</strong> ${o.device}</li>
+        <li><strong>Colors:</strong> ${o.colors.join(', ') || 'None'}</li>
+        <li><strong>Delivery:</strong> ${o.date}</li>
+        <li><strong>Quantity:</strong> ${o.quantity}</li>
+        <li><strong>Wearable:</strong> ${o.wearable}</li>
+        <li><strong>Strap:</strong> ${o.strap}</li>
+        <li><strong>Features:</strong> ${o.features.join(', ') || 'None'}</li>
+        <li><strong>Priority:</strong> ${o.priority}</li>
+        </ul>
+        </div>
+        </div>`).join('');
+        } else {
+        customList.innerHTML = '<p>No custom orders placed.</p>';
+        }
+
+        // Clear storage
+        document.getElementById('clearBtn').addEventListener('click', () => {
+        if (confirm('Clear all cart and custom orders?')) {
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('customOrders');
+        location.reload();
+        }
+        });
+
+        // Confirm action
+        document.getElementById('confirmBtn').addEventListener('click', () => {
+        alert('Thank you! Your order has been placed.');
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('customOrders');
+        location.href = 'index.html';
+        });
+        </script>
+        </body>
+        </html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrightSide Gadgets</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; transition: background .3s, color .3s; }
+        body.dark-mode { background-color: #121212; color: #eaeaea; }
+        header { position: relative; background: url('https://source.unsplash.com/1600x600/?tech,gadgets') center/cover no-repeat; color: #fff; overflow: hidden; }
+        header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 0; }
+        header .header-content { position: relative; z-index: 1; opacity: 0; animation: fadeInDown 1s ease-out forwards; }
+        @keyframes fadeInDown { 0% { opacity:0; transform: translateY(-30px);} 100% { opacity:1; transform: translateY(0);} }
+        .nav-link { position: relative; transition: color .3s; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: #0d6efd; transition: width .3s ease, left .3s ease; }
+        .nav-link:hover::after { width: 100%; left: 0; }
+        section h2 { border-bottom: 3px solid #0d6efd; display: inline-block; padding-bottom: .25rem; }
+        .product-card { transition: transform .3s, box-shadow .3s; border: none; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); opacity: 0; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .product-img { width: 100%; height: 200px; object-fit: cover; border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+        .product-card .card-body { padding: 1.5rem; }
+        .btn-primary, .btn-success { border-radius: 50px; padding: .5rem 1.5rem; transition: transform .2s; }
+        .btn-primary:hover, .btn-success:hover { transform: scale(1.05); }
+        #backToTop { position: fixed; bottom: 1rem; right: 1rem; display: none; z-index: 999; }
+        footer { background: #343a40; color: #adb5bd; padding: 2rem 0; }
+        footer a { color: #adb5bd; margin: 0 .5rem; transition: color .2s; }
+        footer a:hover { color: #fff; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#"><i class="fa-solid fa-bolt text-primary"></i> BrightSide</a>
+        <div class="d-flex align-items-center">
+            <button id="darkToggle" class="btn btn-link text-secondary"><i class="fa-solid fa-moon"></i></button>
+            <button id="cartBtn" class="btn btn-outline-primary position-relative ms-2" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+            </button>
+            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu"><span class="navbar-toggler-icon"></span></button>
+        </div>
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="#order">Order</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="#orders">Your Orders</a></li>
+                <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="text-center py-5 mb-5">
+    <div class="header-content container">
+        <h1 class="display-4 fw-bold"><i class="fa-solid fa-bolt"></i> BrightSide Gadgets</h1>
+        <p class="lead mb-4">Powering Your Life, One Gadget at a Time</p>
+        <p class="fs-5">Our mission is to bring innovative, reliable, and affordable tech to every home.</p>
+        <a href="#products" class="btn btn-primary btn-lg mt-3"><i class="fa-solid fa-box-open me-2"></i>Explore Products</a>
+    </div>
+</header>
+
+<main class="container mb-5">
+    <section id="products" class="mb-5">
+        <h2 class="mb-4"><i class="fa-solid fa-box-open me-2"></i>Our Products</h2>
+        <div class="row" id="product-list"></div>
+    </section>
+
+    <section id="order" class="bg-white p-4 rounded shadow-sm mb-5" data-aos="fade-left">
+        <h2><i class="fa-solid fa-shopping-cart me-2"></i>Customize Your Order</h2>
+        <form id="customForm" action="#" method="POST">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h3>Smart Home Devices</h3>
+                    <div class="mb-3">
+                        <label class="form-label">Device:</label><br>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="device_type" id="lightHub" value="Lighting Hub" required><label class="form-check-label" for="lightHub">Lighting Hub</label></div>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="device_type" id="camKit" value="Camera Kit"><label class="form-check-label" for="camKit">Camera Kit</label></div>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="device_type" id="sensorPack" value="Sensor Pack"><label class="form-check-label" for="sensorPack">Sensor Pack</label></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Color Accent:</label><br>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="checkbox" name="device_colors[]" id="accentWhite" value="White"><label class="form-check-label" for="accentWhite">White</label></div>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="checkbox" name="device_colors[]" id="accentBlack" value="Black"><label class="form-check-label" for="accentBlack">Black</label></div>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="checkbox" name="device_colors[]" id="accentSilver" value="Silver"><label class="form-check-label" for="accentSilver">Silver</label></div>
+                    </div>
+                    <div class="mb-3"><label for="homeDeliveryDate" class="form-label">Preferred Delivery:</label><input type="date" class="form-control" id="homeDeliveryDate" name="delivery_date"></div>
+                    <div class="mb-3"><label for="homeQuantity" class="form-label">Quantity:</label><input type="number" class="form-control" id="homeQuantity" name="home_quantity" min="1" max="10" value="1"></div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3>Wearables</h3>
+                    <div class="mb-3"><label class="form-label">Model:</label><br>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="wearable_model" id="watchX" value="Watch X" required><label class="form-check-label" for="watchX">Watch X</label></div>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="wearable_model" id="bandPro" value="Band Pro"><label class="form-check-label" for="bandPro">Band Pro</label></div>
+                    </div>
+                    <div class="mb-3"><label for="strapColor" class="form-label">Strap Color:</label><select class="form-select" id="strapColor" name="strap_color"><option value="black">Black</option><option value="navy">Navy</option><option value="rose-gold">Rose Gold</option><option value="green">Green</option></select></div>
+                    <div class="mb-3"><label class="form-label">Features:</label><br>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="checkbox" name="wearable_features[]" id="gps" value="GPS"><label class="form-check-label" for="gps">GPS</label></div>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="checkbox" name="wearable_features[]" id="nfc" value="NFC"><label class="form-check-label" for="nfc">NFC</label></div>
+                        <div class="form-check form-check-inline"><input class="form-check-input" type="checkbox" name="wearable_features[]" id="ecg" value="ECG"><label class="form-check-label" for="ecg">ECG</label></div>
+                    </div>
+                    <div class="mb-3"><label for="paymentPriority" class="form-label">Processing Priority:</label><input type="range" class="form-range" id="paymentPriority" name="priority" min="1" max="5" step="1"><small class="form-text text-muted">1 = Standard, 5 = Rush</small></div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fa-solid fa-check-circle me-2"></i>Place Custom Order</button>
+        </form>
+    </section>
+
+    <section id="contact" class="bg-white p-4 rounded shadow-sm mb-5" data-aos="fade-right">
+        <h2><i class="fa-solid fa-envelope me-2"></i>Get in Touch</h2>
+        <form id="contact-form" class="needs-validation" novalidate>
+            <div class="mb-3"><label for="name" class="form-label">Name</label><input type="text" id="name" class="form-control" required></div>
+            <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" id="email" class="form-control" required></div>
+            <div class="mb-3"><label for="message" class="form-label">Message</label><textarea id="message" class="form-control" rows="4" required></textarea></div>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane me-2"></i>Send Message</button>
+        </form>
+    </section>
+
+    <section id="orders" class="bg-white p-4 rounded shadow-sm" data-aos="fade-up">
+        <h2><i class="fa-solid fa-receipt me-2"></i>Your Orders</h2>
+        <div id="ordersContent" class="mt-3">No orders yet.</div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container text-center">
+        <p>&copy; 2025 BrightSide Gadgets. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</footer>
+
+<button id="backToTop" class="btn btn-primary"><i class="fa-solid fa-arrow-up"></i></button>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="cartToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">Added to cart!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Your Cart Items</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="cartModalBody">
+                <p>No items in cart.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true });
+    // Populate cart modal when opened
+    const cartModal = document.getElementById('cartModal');
+    cartModal.addEventListener('show.bs.modal', () => {
+        const body = document.getElementById('cartModalBody');
+        if (cartItems.length) {
+            body.innerHTML = '<ul class="list-group">' + cartItems.map(item => `<li class="list-group-item">${item}</li>`).join('') + '</ul>';
+        } else {
+            body.innerHTML = '<p>No items in cart.</p>';
+        }
+    });
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => document.body.classList.toggle('dark-mode'));
+
+    let cartItems = [];
+    let customOrders = [];
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCountEl = document.getElementById('cartCount');
+    const toastEl = new bootstrap.Toast(document.getElementById('cartToast'));
+
+    const products = [
+        { name: 'Lighting Hub', description: 'Centralized smart lighting controller with app and voice support.', icon: 'fa-solid fa-lightbulb', image: 'light.jpg' },
+        { name: 'Camera Kit', description: 'All-in-one home security camera kit with motion detection.', icon: 'fa-solid fa-camera', image: 'camera.png' },
+        { name: 'Sensor Pack', description: 'Includes motion, door, and temperature sensors for full home coverage.', icon: 'fa-solid fa-thermometer-half', image: 'sensor.jpg' },
+        { name: 'Watch X', description: 'Advanced fitness smartwatch with GPS, heart rate, and sleep tracking.', icon: 'fa-solid fa-heart-pulse', image: 'watch.jpg' },
+        { name: 'Band Pro', description: 'Premium smart band offering health monitoring and notification alerts.', icon: 'fa-solid fa-wristwatch', image: 'Band.jpg' }
+    ];
+    const container = document.getElementById('product-list');
+    products.forEach((prod, i) => {
+        const col = document.createElement('div'); col.className = 'col-md-4 mb-4';
+        col.innerHTML = `
+        <div class="card h-100 product-card" data-aos="fade-up" data-aos-delay="${i * 100}">
+          <img src="images/${prod.image}" alt="${prod.name}" class="product-img">
+          <div class="card-body text-center">
+            <i class="${prod.icon} fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title fw-semibold">${prod.name}</h5>
+            <p class="card-text text-muted">${prod.description}</p>
+            <button class="btn btn-outline-primary rounded-pill addBtn"><i class="fa-solid fa-cart-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      `;
+        container.appendChild(col);
+    });
+
+    document.querySelectorAll('.addBtn').forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+            cartItems.push(products[idx].name);
+            cartCountEl.textContent = cartItems.length;
+            toastEl.show();
+            renderOrders();
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        });
+    });
+
+    document.getElementById('customForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+            device: form.device_type.value,
+            colors: Array.from(form['device_colors[]']).filter(c => c.checked).map(c => c.value),
+            date: form.delivery_date.value,
+            quantity: form.home_quantity.value,
+            wearable: form.wearable_model.value,
+            strap: form.strap_color.value,
+            features: Array.from(form['wearable_features[]']).filter(c => c.checked).map(c => c.value),
+            priority: form.priority.value
+        };
+        customOrders.push(data);
+        renderOrders();
+        form.reset();
+        localStorage.setItem('customOrders', JSON.stringify(customOrders));
+    });
+
+    function renderOrders() {
+        const ordersDiv = document.getElementById('ordersContent');
+        let html = '<h3>Cart Items</h3>';
+        if (cartItems.length) html += '<ul>' + cartItems.map(i => `<li>${i}</li>`).join('') + '</ul>';
+        else html += '<p>No items added.</p>';
+        html += '<h3>Custom Orders</h3>';
+        if (customOrders.length) {
+            customOrders.forEach((o, i) => {
+                html += `<div class="mb-3"><strong>Order ${i+1}:</strong><ul>`;
+                html += `<li>Device: ${o.device}</li>`;
+                html += `<li>Colors: ${o.colors.join(', ') || 'None'}</li>`;
+                html += `<li>Delivery: ${o.date}</li>`;
+                html += `<li>Quantity: ${o.quantity}</li>`;
+                html += `<li>Wearable: ${o.wearable}</li>`;
+                html += `<li>Strap: ${o.strap}</li>`;
+                html += `<li>Features: ${o.features.join(', ') || 'None'}</li>`;
+                html += `<li>Priority: ${o.priority}</li>`;
+                html += '</ul></div>';
+            });
+        } else html += '<p>No custom orders placed.</p>';
+        ordersDiv.innerHTML = html;
+    }
+
+    window.addEventListener('scroll', () => {
+        document.getElementById('backToTop').style.display = window.pageYOffset > 200 ? 'block' : 'none';
+    });
+    document.getElementById('backToTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    (function() {
+        const form = document.getElementById('contact-form');
+        form.addEventListener('submit', e => {
+            if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); form.classList.add('was-validated'); }
+            else { e.preventDefault(); alert(`Thanks, ${document.getElementById('name').value}!`); form.reset(); form.classList.remove('was-validated'); }
+        });
+    })();
+</script>
+</body>
+</html>
